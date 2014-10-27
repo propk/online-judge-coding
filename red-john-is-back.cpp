@@ -3,13 +3,26 @@
 
 #include<iostream>
 #include<math.h>
+#include<map>
+
 using namespace std;
+map<int, long> MyMap;
 
 long reccursive(int n)
 {
-	if (n == 4) return 2;
-	else if (n == 0) return 0;
-	else if (n < 4) return 1;
+	if (!(MyMap.find(n) == MyMap.end())) return MyMap[n];
+	if (n == 4) 
+	{
+		MyMap[n] = 2; return 2;
+	}
+	else if (n == 0)
+	{
+		MyMap[n] = 0; return 0;
+	}
+	else if (n < 4) 
+	{
+		MyMap[n] = 1; return 1;
+	}
 	else 
 		return reccursive(n - 1) + reccursive(n - 4);
 
@@ -18,7 +31,6 @@ long reccursive(int n)
 long noPrimes(long m)
 {
 	long n = reccursive(m);
-	cout << n << endl;
 	if (n < 2) return 0;
 	else
 	{
@@ -53,6 +65,5 @@ int main()
 		cin >> n;
 		cout << noPrimes(n) << endl;
 	}
-	cin >> n;
 	return 0;
 }
