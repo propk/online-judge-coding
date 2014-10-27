@@ -6,20 +6,12 @@
 #include<map>
 
 using namespace std;
-map<int, long> MyMap;
+map<int, int> MyMap;
 
-long reccursive(int n)
+int reccursive(int n)
 {
 	if (!(MyMap.find(n) == MyMap.end())) return MyMap[n];
-	if (n == 4) 
-	{
-		MyMap[n] = 2; return 2;
-	}
-	else if (n == 0)
-	{
-		MyMap[n] = 0; return 0;
-	}
-	else if (n < 4) 
+	else if (n < 4 )
 	{
 		MyMap[n] = 1; return 1;
 	}
@@ -28,42 +20,31 @@ long reccursive(int n)
 
 }
 
-long noPrimes(long m)
+bool arr[250000] = { 0 };
+void noPrimes(int n)
 {
-	long n = reccursive(m);
-	if (n < 2) return 0;
-	else
-	{
-		long count = 0;
-		bool arr[300000] = { 0 };
-	
-		for (long i = 2; i <= sqrt(n); i++)
-		{
-			if (!arr[i])
-			{
-				for (long j = 2; j <= n; j++)
-				{
-					if (i != j)
-						if (j%i == 0) arr[j] = 1;
-				}
-			}
-		}
-
-		for (long i = 2; i <= n; i++)
-		{
-			if (!arr[i]) count++;
-		}
-		return count;
-	}
+	int count = 0;
+	for (int i = 2; i <= sqrt(n); i++)
+		if (!arr[i])
+			for (int j = 2; j <= n; j++)
+				if (i != j)
+					if (j%i == 0) arr[j] = 1;
+	arr[0] = 1; arr[1] = 2;
 }
 int main()
 {
 	int t, n;
 	cin >> t;
+	noPrimes(250000);
 	while (t--)
 	{
 		cin >> n;
-		cout << noPrimes(n) << endl;
+		int count = 0;
+		int r = reccursive(n);
+		for (int i = 2; i <= r; i++)
+			if (!arr[i]) count++;
+		cout << count << endl;
 	}
+	cin >> n;
 	return 0;
 }
