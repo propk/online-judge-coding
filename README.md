@@ -1,2 +1,1 @@
-online-judge-coding
-===================
+Spoj Problems www.spoj.com/
