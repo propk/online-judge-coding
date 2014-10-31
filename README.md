@@ -1,2 +1,1 @@
-online-judge-coding
-===================
+online coding platforms
