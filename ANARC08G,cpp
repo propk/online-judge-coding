@@ -1,0 +1,43 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<stdio.h>
+// Author: Propk
+
+using namespace std;
+int arr[1000][1000];
+int main() // ad-hoc question
+{
+	int serial, counter = 0;
+	scanf("%d", &serial);
+	while (serial != 0)
+	{
+		counter++;
+		int  give[1000] = { 0 }, take[1000] = { 0 }, sum2 = 0;
+		for (int i = 0; i < serial; i++)
+		{
+			for (int j = 0; j < serial; j++)
+			{
+				scanf("%d", &arr[i][j]);
+				give[j] += arr[i][j];
+				sum2 += arr[i][j];
+			}
+		}
+		for (int i = 0; i < serial; i++)
+			for (int j = 0; j < serial; j++)
+				take[j] += arr[j][i];
+		for (int i = 0; i < serial; i++){
+			if (take[i]>give[i]) {
+				take[i] -= give[i]; give[i] = 0;
+			}
+			else{
+				give[i] -= take[i]; take[i] = 0;
+			}
+		}
+		int sum = 0;
+		for (int i = 0; i < serial; i++)
+			sum += give[i];
+		cout << counter << ". " << sum2 << " " << sum << endl;
+		scanf("%d", &serial);
+	}//end of test case
+	return 0;
+}
