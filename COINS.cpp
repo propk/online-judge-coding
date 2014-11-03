@@ -1,7 +1,7 @@
 #include<iostream>
 #include<map>
 //author: Propk
-//Basic DP
+//Basic Dynamic Programming
 
 using namespace std;
 unsigned int max(unsigned int a,unsigned int b)
