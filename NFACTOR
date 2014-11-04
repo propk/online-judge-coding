@@ -1,0 +1,89 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<cstdio>
+#include<vector>
+#include<cstring>
+#define MAX 1000000
+#define LIM 1000001
+#define gc getchar_unlocked
+#define pc(x) putchar_unlocked(x);
+int arr[11][LIM] = { 0 };
+using namespace std;
+
+inline void writeInt(int n)
+{
+	int N = n, rev, count = 0;
+	rev = N;
+	if (N == 0) { pc('0'); pc('\n'); return; }
+	while ((rev % 10) == 0) { count++; rev /= 10; } //obtain the count of the number of 0s
+	rev = 0;
+	while (N != 0) { rev = (rev << 3) + (rev << 1) + N % 10; N /= 10; }  //store reverse of N in rev
+	while (rev != 0) { pc(rev % 10 + '0'); rev /= 10; }
+	while (count--) pc('0');
+	pc('\n');
+}
+void scanint(int &x) // unsigned integer
+{
+	register int c = gc();
+	x = 0;
+	for (; (c<48 || c>57); c = gc());
+	for (; c>47 && c<58; c = gc()) { x = (x << 1) + (x << 3) + c - 48; }
+}
+
+bool is_prime[LIM] = { 0 };
+vector<int> primes;
+void prime_sieve()
+{
+	primes.push_back(2);
+	for (int i = 3; i*i <= MAX; i++)
+		if (!is_prime[i])
+			for (int j = i*i; j <= MAX; j += 2 * i)
+				is_prime[j] = 1;
+	for (int i = 3; i <= MAX; i += 2)
+	{
+		if (!is_prime[i])
+		{
+			primes.push_back((int)i);
+			//cout << i << endl; 
+		}
+	}
+}
+
+int facs[LIM] = { 0 };
+void nfactor()
+{
+	memset(facs, 0, LIM);
+	for (int j = 0; j < (int)primes.size(); j++)
+		for (int i = primes[j]; i <= LIM - 1; i += primes[j])
+			facs[i] ++;
+}
+
+void cumulative()
+{
+	for (int n = 0; n <= 10; n++) {
+		for (int i = 1; i <= LIM - 1; i++)
+		{
+			if (facs[i] == n) { 
+				arr[n][i] += arr[n][i - 1] + 1; //cout << "feat" << endl; 
+			}
+			else arr[n][i] += arr[n][i - 1];
+		}
+	}
+}
+
+int main()
+{
+	prime_sieve();
+	nfactor();
+	cumulative();
+	int q, a, b, n;
+	scanf("%d",&q);
+	while (q--)
+	{
+//	scanf("%d%d%d", &a, &b, &n);
+		scanint(a); scanint(b); scanint(n);
+//	printf("%d\n", arr[n][b]-arr[n][a - 1]);
+		writeInt(arr[n][b]-arr[n][a - 1]);
+	}
+	return 0;
+}
